@@ -5,6 +5,7 @@ output: html_notebook
 
 Load in the dataframe containing the earthquake data and clean the data using the helper functions
 ```{r, message=FALSE, warning=FALSE}
+library(earthquakes)
 devtools::load_all()
 df <- download_NOAA() %>%
   eq_read_raw_data() %>%
@@ -13,8 +14,9 @@ df <- download_NOAA() %>%
 
 A timeline showing all of the earthquakes in the USA since 2000
 ```{r}
-rf<- df %>% dplyr::filter(COUNTRY == "USA" | COUNTRY == "CHINA")
+library(ggplot2)
 
+rf<- df %>% dplyr::filter(COUNTRY == "USA" | COUNTRY == "CHINA")
 ggplot(rf) +
   geom_timeline(aes(x = DATE, colour = TOTAL_DEATHS, size = EQ_PRIMARY), 
                 alpha = 0.5, xmindate = 2000, xmaxdate = 2017) +
@@ -29,17 +31,20 @@ ggplot(rf) +
 
 A `leaflet` map showing all the earthquakes that have taken place in Mexico since the year 2000.  Pop-up labels are the date of the earthquake.
 ```{r}
+library(leaflet)
+library(dplyr)
 df %>% 
-  dplyr::filter(COUNTRY == "MEXICO" & lubridate::year(DATE) >= 2000) %>%
-  dplyr::mutate(popup_text = eq_create_label(.)) %>% 
+  filter(COUNTRY == "MEXICO" & lubridate::year(DATE) >= 2000) %>%
+  mutate(popup_text = eq_create_label(.)) %>% 
   eq_map(annot_col = "DATE")
 ```
 
 A `leaflet` map showing all the earthquakes that have taken place in China since the year 1980.  Pop-up labels give information about the earthquake such as magnitude, number of deaths, and location name 
 ```{r}
+library(dplyr)
 df %>% 
-  dplyr::filter(COUNTRY == "CHINA" & lubridate::year(DATE) >= 1990) %>%
-  dplyr::mutate(popup_text = eq_create_label(.)) %>% 
+  filter(COUNTRY == "CHINA" & lubridate::year(DATE) >= 1990) %>%
+  mutate(popup_text = eq_create_label(.)) %>% 
   eq_map(annot_col = "popup_text")
 ```
 
