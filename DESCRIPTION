@@ -2,13 +2,16 @@ Package: earthquakes
 Type: Package
 Title: Maps NOAA Earthquakes Dataset
 Version: 0.1.0
-Author: Galen Simmons
-Maintainer: galen.simmons@gmail.com
-Description: Uses data from the NOAA earthquake dataset to create timelines and maps
-License: MIT
+Authors@R: person("Galen", "Simmons", email =
+    "gs2592@columbia.edu", role = c("aut", "cre"))
+Description: Uses data from the NOAA earthquake dataset to create timelines and maps.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: testthat
+Depends: R (>= 3.2.3)
+Suggests: testthat,
+    knitr,
+    rmarkdown
 Imports: ggplot2,
     dplyr,
     magrittr,
@@ -18,3 +21,5 @@ Imports: ggplot2,
     tidyr,
     grid,
     stringr
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1

@@ -10,7 +10,7 @@ df %>%
   mutate(popup_text = eq_create_label(.)) %>%
   eq_map(annot_col = "popup_text")
 ```
-![china_earthquakes.png](china_earthquakes.png)
+![china_earthquakes.png](vignettes/china_earthquakes.png)
 
 ### Timelines
 ```r
@@ -26,4 +26,4 @@ ggplot(rf) +
         panel.grid.major.y = element_line(colour = "grey", size = 0.5)) +
   labs(size = "Richter scale value ", colour = "# deaths ")
 ```
-![earthquake_timeline.png](earthquake_timeline.png)
+![earthquake_timeline.png](vignettes/earthquake_timeline.png)

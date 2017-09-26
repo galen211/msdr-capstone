@@ -3,14 +3,12 @@
 #' @return DataFrame with re-formatted NOAA data
 #' @export
 #'
-#' @importFrom devtools use_data
 #'
 #' @examples \dontrun{setup_data()}
 setup_data <- function() {
   dest_file <- download_NOAA()
   raw_data <- eq_read_raw_data(dest_file)
   df <- eq_clean_data(raw_data)
-  devtools::use_data(df, overwrite = TRUE)
 }
 
 
@@ -35,15 +33,15 @@ download_NOAA <- function() {
 #' @param raw_data list containing raw NOAA data
 #'
 #' @return DataFrame containing formatted NOAA data
-#' @export
 #'
 #' @importFrom tidyr replace_na
 #' @importFrom dplyr mutate
 #' @importFrom magrittr %>%
 #'
-#' @examples \dontrune{eq_clean_data(raw_data)}
+#' @examples \dontrun{eq_clean_data(raw_data)}
 eq_clean_data <- function(raw_data) {
-  df <- raw_data %>%
+  with(raw_data, {
+    df <- raw_data %>%
       as.data.frame() %>%
       # dates missing 'month' or 'day'
       tidyr::replace_na(MONTH = 1, DAY = 1, HOUR = 0, MINUTE = 0, SECOND = 0) %>%
@@ -54,7 +52,8 @@ eq_clean_data <- function(raw_data) {
       # convert tsunami to a logical flag
       dplyr::mutate(FLAG_TSUNAMI = ifelse(is.na(FLAG_TSUNAMI), FALSE,TRUE)) %>%
       eq_location_clean()
-  return(df)
+    return(df)
+  })
 }
 
 #' Cleans the LOCATION_NAME of a DataFrame containing NOAA data
@@ -69,19 +68,22 @@ eq_clean_data <- function(raw_data) {
 #'
 #' @examples \dontrun{eq_location_clean(df)}
 eq_location_clean<-function(df){
-  df %>%
-    dplyr::mutate(LOCATION = gsub(".*:", "", LOCATION_NAME)) %>%
-    dplyr::mutate(LOCATION = stringr::str_to_title(LOCATION_NAME))
+  with(df, {
+    df %>%
+      dplyr::mutate(LOCATION = gsub(".*:", "", LOCATION_NAME)) %>%
+      dplyr::mutate(LOCATION = stringr::str_to_title(LOCATION_NAME))
+    return(df)
+  })
 }
 
 #' Imports raw data from file
-#'
+#' @param file the file to read in
 #' @return list containing imported raw data
 #' @export
 #'
 #' @importFrom readr read_delim
 #'
-#' @examples \dontrun(eq_read_raw_data())
+#' @examples \dontrun{eq_read_raw_data()}
 eq_read_raw_data <- function(file) {
   readr::read_delim(file,
                     delim = "\t",
