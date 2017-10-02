@@ -1,4 +1,4 @@
-[![Travis-CI Build Status](https://travis-ci.org/galen211/msdr-capstone.svg?branch=master)](https://travis-ci.org/<USERNAME>/<REPO>)
+[![Travis-CI Build Status](https://travis-ci.org/galen211/msdr-capstone.svg?branch=master)](https://travis-ci.org/galen211/msdr-capstone.svg?branch=master)
 
 ### Mastering Software Development in R Capstone Project
 The `earthquake` package is a data-wrangling and mapping application that uses earthquake data from the [NOAA](https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1) significant earthquakes dataset.  Using the package, the user can query significant earthquakes and map their results as shown in the `sample_queries.Rmd` file.  A couple examples are given below:
